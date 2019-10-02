@@ -1,0 +1,11 @@
+
+#!/bin/bash
+
+# This script will allow  the user to search for an existing business based upon any 
+# of that businesses information
+
+echo "You are now in the Find Business script"
+
+
+# When done return the user to the Menu
+exec ./Menu

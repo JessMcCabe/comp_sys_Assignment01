@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+# Purpose
+# Assignment 01 - Create a linux-based software tool that will allow
+# a company to keep track of all it's business contacts
+
+# Author
+# 05000246 Jessica McCabe
+
+# Description
+# This is a standalone script that will update the Address Book
+# file with details of a new business
+# This file should accept 5 command line arguments
+
+# Arguments
+# <Company Name> <Contact First and Last Name> <Postal Address> <Contact Phone Number> <Email Address>
+
+echo "You are now in the AddBiz script" #For testing
+
+# Accept the arguments and write them to a file 
+# use >> redirect in case the file exist already so we do not overwrite
+
+#Check that the script received the correct number of arguments
+#echo There were $# argument passed to the script 
+
+if [ $# -eq 5 ]
+then echo "5 Arguments passed"
+echo $1 $2 $3 $4 $5 >>BusinessDetails
+./Menu
+else echo "Incorrect number of arguments passed, you entered $# arguments"
+fi
+
+

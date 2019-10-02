@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This script will remove all business's information from the AddressBook based on a particular businesses name or contacts name
+# 
+echo "You are now in the Remove Business script"
