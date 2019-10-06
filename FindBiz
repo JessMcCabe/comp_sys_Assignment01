@@ -4,7 +4,6 @@
 # This script will allow  the user to search for an existing business based upon any 
 # of that businesses information
 
-echo "You are now in the Find Business script" #Testing only, remove when done
 
 # Find a business based on any of the information for that business
 # Take the input the user has entered and search the Business Details based on that - grep
@@ -22,30 +21,57 @@ echo "--------------------------------------------------------------------------
 if [ $# -eq 2 ] 
 then
 
+# Print the below line so they know which column is which
 echo "[Company Name] [Contact Name] [Address] [Phone Number] [Email]"
-echo $1 #Mr
-echo $2 #2
+
+
 
 #Below works fine for matching anything
 #grep "$1" BusinessDetails
 
 # if user wants to search Company Name which is Column1 
-# assign $1, which is the 1st parameter passed to the file (The users chosen search_option number from the menu) to an awk variable called pattern
+# $2 is the column selected in search_options
+# assign $1, which is the 1st parameter passed to the file (The users entered value to search for) to an awk variable called pattern
 # -F "] " is telling the command that this is the delimiter, this is used so we can search based on a specific field rather than matching any field
-
+# ~ is used to match a pattern that is stored in a variable
+# tolower() will convert the value to lower case (IGNORECASE=1 did not work)
+ 
 	if [ $2 -eq 1 ]
 		then
 		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($1) ~ tolower(pattern) '
 	fi
 
 # if the user wants to search Contact Name which is column 2
-# $2 is the column selected in search_options
+
 
 	if [ $2 -eq 2 ]
 		then
-		cat BusinessDetails | awk -v pattern="$1" -F "] " ' $1 ~ pattern '
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($2) ~ tolower(pattern) '
 	fi
 	
+# if the user wants to search Address which is column 3
+
+	if [ $2 -eq 3 ]
+		then
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($3) ~ tolower(pattern) ' 
+	fi
+
+# if the user wants to search Phone Number which is column 4
+	
+	if [ $2 -eq 4 ]
+		then
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($4) ~ tolower(pattern) ' 
+	fi
+
+# if the user wants to search email  which is column 5
+	
+	if [ $2 -eq 5 ]
+		then
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($5) ~ tolower(pattern) '
+	fi
+
+
+
 
 fi
 
