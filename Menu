@@ -19,12 +19,13 @@ SCRIPT_FINDBIZ="./FindBiz"
 
 
 
-options=("Add a Business" "Remove a Business" "Find a Business" "Quit")
+main_options=("Add a Business" "Remove a Business" "Find a Business" "Quit")
+search_options=("Search by Business Name" "Search by Contact Name" "Search by Address" "Search by Phone Number" "Search by Email" "Return to Main Menu" ) 
 PS3='Choose a number to select the option: '
 
 
 
-select opt in "${options[@]}"
+select opt in "${main_options[@]}"
 do
 
 echo
@@ -51,7 +52,7 @@ echo
 			echo "The details you entered are $companyName , $contactName , $address , $phoneNumber , $email  "
 			echo "Adding to the AddressBook now.."
 		#Call the AddBiz file 
-		exec $SCRIPT_ADDBIZ "$companyName" "$contactName" "$address" "$phoneNumber" "$email"
+		exec $SCRIPT_ADDBIZ "[$companyName]" "[$contactName]" "[$address]" "[$phoneNumber]" "[$email]"
 		;;
 	2)
 		echo "You have chosen to Remove a Business"
@@ -59,12 +60,53 @@ echo
 		;;
 	3)
 		echo "You have chosen to Find a Business"
-		exec $SCRIPT_FINDBIZ
-		;;
+		echo
+		echo
+		# Sub Menu to select the search criteria
+		select  opt in "${search_options[@]}"
+			do
+				case $REPLY in
+				1)
+				echo "Please enter the Company Name you want to search for:"
+				read searchCompany
+				exec $SCRIPT_FINDBIZ "$searchCompany" "$REPLY"	#1st parameter is the search criteria , second parameter is the chosen option which will be used to determine
+				;;											#what column to search in the file
+				2)
+				echo "Please enter the Contact Name you wish to search by:"
+				read searchContact
+				exec $SCRIPT_FINDBIZ "$searchContact" "$REPLY"
+				;;
+				3)
+				echo "Please enter the address you wish to search by:"
+				read searchAddress
+				exec $SCRIPT_FINDBIZ "$searchAddress" "$REPLY"
+				;;
+				4)
+				echo "Please enter the phone number you wish to search by:"
+				read searchNumber
+				exec $SCRIPT_FINDBIZ "$searchNumber" "$REPLY"
+				;;
+				5)
+				echo "Please enter the the email address you wish to search by:"
+				read searchEmail
+				exec $SCRIPT_FINDBIZ "$searchEmail" "$REPLY"
+				;;
+				6) 
+				echo "Returning to Main Menu"
+				echo
+				exec ./Menu
+				;;
+				*)
+				echo "invalid option $REPLY"
+				;;
+				esac 
+			done
+		break;;
 	4)	echo "GoodBye!"
 		break
 		;;
-	*) echo "invalid option $REPLY";;
+	*) echo "invalid option $REPLY"
+	;;
 	esac
 done
 

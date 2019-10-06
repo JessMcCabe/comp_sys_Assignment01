@@ -4,8 +4,51 @@
 # This script will allow  the user to search for an existing business based upon any 
 # of that businesses information
 
-echo "You are now in the Find Business script"
+echo "You are now in the Find Business script" #Testing only, remove when done
+
+# Find a business based on any of the information for that business
+# Take the input the user has entered and search the Business Details based on that - grep
+
+# grep "text to search" <file to search>
+echo
+echo
+echo "We have found the following businesses based on your search criteria \"$1\""
+echo "--------------------------------------------------------------------------------"
 
 
-# When done return the user to the Menu
+
+# $1 is the search criteria and $2 is the column to search
+# Make sure the script was passed 2 arguments
+if [ $# -eq 2 ] 
+then
+
+echo "[Company Name] [Contact Name] [Address] [Phone Number] [Email]"
+echo $1 #Mr
+echo $2 #2
+
+#Below works fine for matching anything
+#grep "$1" BusinessDetails
+
+# if user wants to search Company Name which is Column1 
+# assign $1, which is the 1st parameter passed to the file (The users chosen search_option number from the menu) to an awk variable called pattern
+# -F "] " is telling the command that this is the delimiter, this is used so we can search based on a specific field rather than matching any field
+
+	if [ $2 -eq 1 ]
+		then
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' $1 ~ pattern '
+	fi
+
+# if the user wants to search Contact Name which is column 2
+# $2 is the column selected in search_options
+
+	if [ $2 -eq 2 ]
+		then
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' $1 ~ pattern '
+	fi
+	
+
+fi
+
+
+echo # When done return the user to the Menu
 exec ./Menu
