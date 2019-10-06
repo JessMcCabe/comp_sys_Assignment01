@@ -35,7 +35,7 @@ echo $2 #2
 
 	if [ $2 -eq 1 ]
 		then
-		cat BusinessDetails | awk -v pattern="$1" -F "] " ' $1 ~ pattern '
+		cat BusinessDetails | awk -v pattern="$1" -F "] " ' tolower($1) ~ tolower(pattern) '
 	fi
 
 # if the user wants to search Contact Name which is column 2
