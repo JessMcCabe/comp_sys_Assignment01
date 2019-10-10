@@ -18,13 +18,15 @@ SCRIPT_REMBIZ="./RmBiz"
 SCRIPT_FINDBIZ="./FindBiz"
 
 
+# Different options for the Menu and sub menus
 
-main_options=("Add a Business" "Remove a Business" "Find a Business" "Quit")
+main_options=("Add a Business" "Remove a Business" "Find a Business" "Send Email" "Quit")
 search_options=("Search by Business Name" "Search by Contact Name" "Search by Address" "Search by Phone Number" "Search by Email" "Return to Main Menu" ) 
+email_options=("Send Email to Individual Business" "Send email to all Businesses" "Return to Main Menu")
 PS3='Choose a number to select the option: '
 
 
-
+# Main Menu
 select opt in "${main_options[@]}"
 do
 
@@ -102,7 +104,56 @@ echo
 				esac 
 			done
 		break;;
-	4)	echo "GoodBye!"
+	4)	echo "You have selected Send Email"
+		# Sub Menu to select email option
+		select  opt in "${email_options[@]}"
+			do
+				case $REPLY in
+				1)
+				echo "You have chosen to send an email to an individual Business"
+				echo "Please enter the company name you wish to email:"
+				read emailCompany
+				echo "You want to email $emailCompany"
+				echo
+				email=$(cat BusinessDetails | awk -v pattern="$emailCompany" -F "] " ' tolower($5) ~ tolower(pattern)' | awk -F "] " ' { print $5 }') # Save the value of the email address
+				echo "The email address is $email"
+				#remove square brackets from email
+				emailAddress=$(echo $email | tr -d '[' | tr -d ']' )
+				echo "Actual email address is  $emailAddress" 
+				echo "Please enter the email subject:"
+				read emailSubject
+				echo "The email subject is $emailSubject"
+				echo
+				echo "Please enter the email body:"
+				read emailBody
+				echo "The email body you entered is $emailBody"
+				#send email here
+				;;
+				2)
+				echo "You have chosen to email all companies"
+				echo
+				echo "Please enter the email subject"
+				read emailSubject
+				echo "The email subject is $emailSubject"
+				echo 
+				echo "Please enter the email body:"
+				read emailBody
+				echo "The email body is $emailBody"
+				#Send email here
+				;;
+				3)
+				echo "Returning to Main Menu"
+				echo
+				exec ./Menu
+				;;
+				*)
+				echo "invalid option $REPLY"
+				;;
+				esac 
+			done
+		break;;
+
+	5)	echo "GoodBye!"
 		break
 		;;
 	*) echo "invalid option $REPLY"
