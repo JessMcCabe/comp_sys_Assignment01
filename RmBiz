@@ -35,15 +35,27 @@ echo
 		if [ "$confirmed" =  "y" ]
 		then
 		echo "Removing Business..... "
+		elif [ "$confirmed" = "n" ]
+		then
+		exec ./RmBiz
 		fi
 	   ;;
 
 	2) echo "You have chosen to remove a business based on Contact Name"
 	   echo "Please enter the Contact Name you wish to remove:"
 	   read contactName
+	   echo "Are you sure you want to remove this business? (y/n)"
            cat BusinessDetails | awk -v pattern="$contactName" -F "] " ' tolower($2) ~ tolower(pattern) ' 
-	   echo 
-	   echo "Are you sure you want to remove this Business?" 
+	   echo
+	   echo
+	   read confirmed
+		if [ "$confirmed" = "y" ]
+		then
+		echo "Removing Business...."
+		elif [ "$confirmed" = "n" ]
+		then
+		exec ./RmBiz
+		fi
 	   ;;
 	3) 
 	  echo "Returning to Main Menu"
