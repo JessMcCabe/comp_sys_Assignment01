@@ -110,24 +110,28 @@ echo
 			do
 				case $REPLY in
 				1)
+				echo
 				echo "You have chosen to send an email to an individual Business"
 				echo "Please enter the company name you wish to email:"
 				read emailCompany
-				echo "You want to email $emailCompany"
 				echo
-				email=$(cat BusinessDetails | awk -v pattern="$emailCompany" -F "] " ' tolower($5) ~ tolower(pattern)' | awk -F "] " ' { print $5 }') # Save the value of the email address
-				echo "The email address is $email"
+				echo "You want to email $emailCompany"
+				cat BusinessDetails | awk -v pattern="$emailCompany" -F "] " ' tolower($1) ~ tolower(pattern) '
+				email=$(cat BusinessDetails | awk -v pattern="$emailCompany" -F "] " ' tolower($1) ~ tolower(pattern) ' | awk -F "] " ' { print $5 } ') # Save the value of the email address
+				#echo "The email address is $email"
 				#remove square brackets from email
 				emailAddress=$(echo $email | tr -d '[' | tr -d ']' )
-				echo "Actual email address is  $emailAddress" 
+				#echo "Actual email address is  $emailAddress" 
+				echo
 				echo "Please enter the email subject:"
 				read emailSubject
-				echo "The email subject is $emailSubject"
+				#echo "The email subject is $emailSubject"
 				echo
 				echo "Please enter the email body:"
 				read emailBody
-				echo "The email body you entered is $emailBody"
+				#echo "The email body you entered is $emailBody"
 				#send email here
+				echo $emailBody | mail -s $emailSubject $emailAddress
 				;;
 				2)
 				echo "You have chosen to email all companies"
