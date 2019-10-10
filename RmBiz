@@ -35,6 +35,14 @@ echo
 		if [ "$confirmed" =  "y" ]
 		then
 		echo "Removing Business..... "
+		lineToRemove=$(cat BusinessDetails | awk -v pattern="$companyName" -F "] " ' tolower($1) ~ tolower(pattern) ') # Save the value to remove in a variable 
+		echo "line to remove is $lineToRemove"
+		#This doesnt work because I have [] within theh variable sed -i -r "$lineToRemove"'d' BusinessDetails
+		#To get around this, use grep -F (to interpret as a fixed string) and -v to return everything except the business you want to remove, and redirect to a new file
+		#Use the file of the same name and over write it
+       	        grep -F -v "$lineToRemove" BusinessDetails >BusinessDetails.bak
+		mv BusinessDetails.bak BusinessDetails
+		./RmBiz
 		elif [ "$confirmed" = "n" ]
 		then
 		exec ./RmBiz
@@ -60,10 +68,12 @@ echo
 	3) 
 	  echo "Returning to Main Menu"
 	  echo
-	  exec ./Menu
+	 exit;
 	  ;;
 	*)
 	  echo "invalid option $REPLY"
 	  ;;
 	esac 
 done
+
+./Menu
