@@ -41,3 +41,16 @@ Send an Email:
 If the user chooses to send an email they will be presented with 3 options, email an individual business, email all businesses or return to the main menu. 
 If the user chooses to email an individual business, they will be asked to enter the company name that they wish to email. The business details will be shown on screen and the email address for that business will be retreived. The user is then asked to provide the subject and email body. 
 
+
+Other References:   
+Loop Counter increment:  
+https://stackoverflow.com/questions/10515964/counter-increment-in-bash-loop-not-working
+
+Concatenate Strings:  
+https://linuxize.com/post/bash-concatenate-strings/
+
+Use Variable for line number SED:   
+https://www.unix.com/unix-for-dummies-questions-and-answers/37340-use-variable-sed-print-line.html
+
+Check if Variable is NULL:  
+https://www.cyberciti.biz/faq/unix-linux-bash-script-check-if-variable-is-empty/
