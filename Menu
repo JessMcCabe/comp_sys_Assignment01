@@ -38,18 +38,45 @@ echo
 			echo
 			echo "Please enter the Company Name:"
 			read companyName
+			# For the purpose of this exercise, the user will not be allowed to enter a null value for any of the requested information
+			while [ -z "$companyName" ]
+				do
+				echo "You did not enter a value, Company Name cannot be blank, please enter the Company Name:"
+				read companyName
+				done
 			echo
 			echo "Please enter the Business Contacts Full Name:"
 			read contactName
+			while [ -z "$contactName" ]
+				do
+				echo "You did not enter a value, Contact Name cannot be blank, please enter the Contact Name:"
+				read contactName
+				done
 			echo
-			echo "Please enter their address:"
+			echo "Please enter the Company Address:"
 			read address
+			while [ -z "$address" ]
+				do
+				echo "You did not enter an address value, Company Address cannot be blank, please enter the Company Address:"
+				read address
+				done
 			echo
-			echo "Please enter their phone number:"
+			echo "Please enter the Contact Phone Number:"
 			read phoneNumber
 			echo
-			echo "Please enter their email address:"
+			while [ -z "$phoneNumber" ] 
+				do
+				echo "You did not enter a Phone Number, Phone Number cannot be blank, please enter a Phone Number:"
+				read phoneNumber
+				done
+			echo "Please enter the Contacts email address"
 			read email
+			echo
+			while [ -z "$email" ]
+				do
+				echo "You did not enter an email address, email address cannot be blank, please enter an email address:"
+				read email
+				done
 			echo
 			echo "The details you entered are $companyName , $contactName , $address , $phoneNumber , $email  "
 			echo "Adding to the AddressBook now.."
