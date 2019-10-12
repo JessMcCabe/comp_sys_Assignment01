@@ -22,7 +22,7 @@ SCRIPT_FINDBIZ="./FindBiz"
 
 main_options=("Add a Business" "Remove a Business" "Find a Business" "Send Email" "Quit")
 search_options=("Search by Business Name" "Search by Contact Name" "Search by Address" "Search by Phone Number" "Search by Email" "Return to Main Menu" ) 
-email_options=("Send Email to Individual Business" "Send email to all Businesses" "Return to Main Menu")
+email_options=("Send Email to Individual Business" "Send Email to all Businesses" "Return to Main Menu")
 PS3='Choose a number to select the option: '
 
 
@@ -131,19 +131,32 @@ echo
 				read emailBody
 				#echo "The email body you entered is $emailBody"
 				#send email here
-				echo $emailBody | mail -s $emailSubject $emailAddress
+				echo "$emailBody" | mail -s "$emailSubject" $emailAddress
 				;;
 				2)
 				echo "You have chosen to email all companies"
+				#  Below shows number of lines in the file
+				#  wc -l < BusinessDetails
+				#  loop through each line number and get send the email to each member in the file
 				echo
-				echo "Please enter the email subject"
+				echo "Please enter the email Subject:"
 				read emailSubject
-				echo "The email subject is $emailSubject"
-				echo 
+				echo
 				echo "Please enter the email body:"
+				echo
 				read emailBody
-				echo "The email body is $emailBody"
-				#Send email here
+				echo
+				noOfBus=$(wc -l < BusinessDetails )
+					while [ $noOfBus -gt 0 ]
+					do
+						emailAddresses=$(sed -n "${noOfBus}p"  BusinessDetails | awk -F "] " ' {print $5 } ' | tr -d '[' | tr -d ']' )
+						echo $emailBody | mail -s "emailSubject" $emailAddresses
+						noOfBus=$[$noOfBus - 1 ]
+						echo "Email Sent to " $emailAddresses
+					done
+				echo "Email sending complete"
+				echo
+				exec ./Menu
 				;;
 				3)
 				echo "Returning to Main Menu"
