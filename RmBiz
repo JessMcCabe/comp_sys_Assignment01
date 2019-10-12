@@ -22,17 +22,27 @@ do
 echo
 
 	case $REPLY  in
-	1) echo "You have chosen to remove a business based on Company Name"
-	   echo "Please enter the Company Name you wish to remove"
-	   echo 
-	   read companyName
-	   echo
-	   #Using the same logic in findBiz, search for the company Name in column 1 of the Business Details file
-	   echo "Are you sure you want to remove this business? (y/n)"
-	   cat BusinessDetails | awk -v pattern="$companyName" -F "] " ' tolower($1) ~ tolower(pattern) ' 
-	   echo 
-	   read confirmed
-		if [ "$confirmed" =  "y" ]
+	1) 
+	echo "You have chosen to remove a business based on Company Name"
+	echo "Please enter the Company Name you wish to remove"
+	echo 
+	read companyName
+	echo
+	#Using the same logic in findBiz, search for the company Name in column 1 of the Business Details file
+	#echo "Are you sure you want to remove this business? (y/n)"
+	#cat BusinessDetails | awk -v pattern="$companyName" -F "] " ' tolower($1) ~ tolower(pattern) ' 
+	lineToRemove=$(cat BusinessDetails | awk -v pattern="$companyName" -F "] " ' tolower($1) ~ tolower(pattern) ')
+	if [ -z "$lineToRemove" ]
+		then
+		echo "There is no Business matching that criteria"
+		exec $SCRIPT_MAINMENU 
+	else
+	echo "Are you sure you want to remove this Business?"
+	echo "lineToRemove"
+	echo
+	fi
+	read confirmed
+	if [ "$confirmed" =  "y" ]
 		then
 		echo "Removing Business..... "
 		lineToRemove=$(cat BusinessDetails | awk -v pattern="$companyName" -F "] " ' tolower($1) ~ tolower(pattern) ') # Save the value to remove in a variable 
@@ -42,37 +52,50 @@ echo
 		#Use the file of the same name and over write it
        	        grep -F -v "$lineToRemove" BusinessDetails >BusinessDetails.bak
 		mv BusinessDetails.bak BusinessDetails
-		./RmBiz
-		elif [ "$confirmed" = "n" ]
+		exec $SCRIPT_MAINMENU
+	elif [ "$confirmed" = "n" ]
 		then
 		exec ./RmBiz
-		fi
-	   ;;
+	fi
+	;;
 
-	2) echo "You have chosen to remove a business based on Contact Name"
-	   echo "Please enter the Contact Name you wish to remove:"
-	   read contactName
-	   echo "Are you sure you want to remove this business? (y/n)"
-           cat BusinessDetails | awk -v pattern="$contactName" -F "] " ' tolower($2) ~ tolower(pattern) ' 
-	   echo
-	   echo
-	   read confirmed
-		if [ "$confirmed" = "y" ]
+	2) 
+	echo "You have chosen to remove a business based on Contact Name"
+	echo "Please enter the Contact Name you wish to remove:"
+	read contactName
+	lineToRemove=$(cat BusinessDetails | awk -v pattern="$contactName" -F "] " ' tolower($2) ~ tolower(pattern) ')
+	if [ -z "$lineToRemove" ]
+		then
+		echo "There is no Business matching that criteria"
+		exec $SCTIPT_MANIMENU
+	else
+		echo
+		echo "Are you sure you want to remove this business? (y/n)"
+        	#cat BusinessDetails | awk -v pattern="$contactName" -F "] " ' tolower($2) ~ tolower(pattern) ' 
+		echo $lineToRemove
+		echo
+	fi
+	read confirmed
+	if [ "$confirmed" = "y" ]
 		then
 		echo "Removing Business...."
-		elif [ "$confirmed" = "n" ]
+		echo "Removed $lineToRemove"
+		grep -F -v "$lineToRemove" BusinessDetails >BusinessDetails.bak
+		mv BusinessDetails.bak BusinessDetails
+		exec $SCRIPT_MAINMENU
+	elif [ "$confirmed" = "n" ]
 		then
 		exec ./RmBiz
-		fi
-	   ;;
+	fi
+	;;
 	3) 
-	  echo "Returning to Main Menu"
-	  echo
-	 break
-	  ;;
+	echo "Returning to Main Menu"
+	echo
+	break
+	;;
 	*)
-	  echo "invalid option $REPLY"
-	  ;;
+	echo "invalid option $REPLY"
+	;;
 	esac 
 done
 
