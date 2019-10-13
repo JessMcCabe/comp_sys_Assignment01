@@ -15,7 +15,6 @@ remove_options=("Remove a Business based on Company Name" "Remove a Business bas
 PS3='Choose a number to select the option: '
 
 
-
 select opt in "${remove_options[@]}"
 do
 
@@ -27,6 +26,11 @@ echo
 	echo "Please enter the Company Name you wish to remove"
 	echo 
 	read companyName
+	while [[ -z "$companyName" ||  "$companyName" == "*" ]]
+	do 
+	echo "You did not enter a valid value for Company Name, please enter the Company Name to search for:"
+	read companyName
+	done
 	echo
 	#Using the same logic in findBiz, search for the company Name in column 1 of the Business Details file
 	#echo "Are you sure you want to remove this business? (y/n)"
@@ -37,8 +41,8 @@ echo
 		echo "There is no Business matching that criteria"
 		exec $SCRIPT_MAINMENU 
 	else
-	echo "Are you sure you want to remove this Business?"
-	echo "lineToRemove"
+	echo "Are you sure you want to remove this Business?(y/n)"
+	echo "$lineToRemove"
 	echo
 	fi
 	read confirmed
@@ -63,11 +67,16 @@ echo
 	echo "You have chosen to remove a business based on Contact Name"
 	echo "Please enter the Contact Name you wish to remove:"
 	read contactName
+	while [[ -z "$contactName" || "$contactName" == "*" ]]
+	do
+	echo "You did not enter a value for Contact Name, please enter a Contact Name to search for:"
+	read contactName
+	done
 	lineToRemove=$(cat BusinessDetails | awk -v pattern="$contactName" -F "] " ' tolower($2) ~ tolower(pattern) ')
 	if [ -z "$lineToRemove" ]
 		then
 		echo "There is no Business matching that criteria"
-		exec $SCTIPT_MANIMENU
+		exec $SCRIPT_MAINMENU
 	else
 		echo
 		echo "Are you sure you want to remove this business? (y/n)"
@@ -100,3 +109,4 @@ echo
 done
 
 ./Menu
+

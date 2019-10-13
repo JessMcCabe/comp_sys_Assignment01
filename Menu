@@ -39,7 +39,7 @@ echo
 			echo "Please enter the Company Name:"
 			read companyName
 			# For the purpose of this exercise, the user will not be allowed to enter a null value for any of the requested information
-			while [ -z "$companyName" ]
+			while [[ -z "$companyName" || "$companyName" == "*" ]]
 				do
 				echo "You did not enter a value, Company Name cannot be blank, please enter the Company Name:"
 				read companyName
@@ -47,7 +47,7 @@ echo
 			echo
 			echo "Please enter the Business Contacts Full Name:"
 			read contactName
-			while [ -z "$contactName" ]
+			while [[ -z "$contactName" || "$contactName" == "*" ]]
 				do
 				echo "You did not enter a value, Contact Name cannot be blank, please enter the Contact Name:"
 				read contactName
@@ -55,7 +55,7 @@ echo
 			echo
 			echo "Please enter the Company Address:"
 			read address
-			while [ -z "$address" ]
+			while [[ -z "$address" || "$address" == "*"  ]]
 				do
 				echo "You did not enter an address value, Company Address cannot be blank, please enter the Company Address:"
 				read address
@@ -64,7 +64,7 @@ echo
 			echo "Please enter the Contact Phone Number:"
 			read phoneNumber
 			echo
-			while [ -z "$phoneNumber" ] 
+			while [[ -z "$phoneNumber" || "$phoneNumber" == "*" ]] 
 				do
 				echo "You did not enter a Phone Number, Phone Number cannot be blank, please enter a Phone Number:"
 				read phoneNumber
@@ -72,7 +72,7 @@ echo
 			echo "Please enter the Contacts email address"
 			read email
 			echo
-			while [ -z "$email" ]
+			while [[ -z "$email" || "$email" == "*" ]]
 				do
 				echo "You did not enter an email address, email address cannot be blank, please enter an email address:"
 				read email
@@ -98,26 +98,53 @@ echo
 				1)
 				echo "Please enter the Company Name you want to search for:"
 				read searchCompany
+				echo
+				while [[ -z "$searchCompany" || "$searchCompany" == "*" ]]
+				do
+				echo "You did not enter a value, please enter a Company Name to search for:"
+				read searchCompany
+				done
 				exec $SCRIPT_FINDBIZ "$searchCompany" "$REPLY"	#1st parameter is the search criteria , second parameter is the chosen option which will be used to determine
 				;;											#what column to search in the file
 				2)
 				echo "Please enter the Contact Name you wish to search by:"
 				read searchContact
+				echo
+				while [[ -z "$searchContact" || "$searchContact" == "*" ]]
+				do
+				echo "You did not enter a value, please enter a Contact Name to search for:"
+				read searchContact
+				done
 				exec $SCRIPT_FINDBIZ "$searchContact" "$REPLY"
 				;;
 				3)
 				echo "Please enter the address you wish to search by:"
 				read searchAddress
+				while [[ -z "$searchAddress" || "$searchAddress" == "*" ]]
+				do
+				echo "You did not enter an address value, please enter an Address to search for:"
+				read searchAddress
+				done
 				exec $SCRIPT_FINDBIZ "$searchAddress" "$REPLY"
 				;;
 				4)
 				echo "Please enter the phone number you wish to search by:"
 				read searchNumber
+				while [[ -z "$searchNumber" || "$searchNumber" == "*" ]]
+				do
+				echo "You did not enter a phone number value, please enter a phone number to search for:"
+				read searchNumber
+				done 
 				exec $SCRIPT_FINDBIZ "$searchNumber" "$REPLY"
 				;;
 				5)
 				echo "Please enter the the email address you wish to search by:"
 				read searchEmail
+				while [[ -z "$searchEmail" || "$searchEmail" == "*" ]]
+				do
+				echo "You did not enter a value, please enter an email address to search for:"
+				read searchEmail
+				done
 				exec $SCRIPT_FINDBIZ "$searchEmail" "$REPLY"
 				;;
 				6) 
@@ -203,5 +230,6 @@ echo
 	*) echo "invalid option $REPLY"
 	;;
 	esac
-done
+done 
+
 

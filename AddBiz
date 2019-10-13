@@ -16,7 +16,7 @@
 # Arguments
 # <Company Name> <Contact First and Last Name> <Postal Address> <Contact Phone Number> <Email Address>
 
-echo "You are now in the AddBiz script" #For testing
+#echo "You are now in the AddBiz script" #For testing
 
 # Accept the arguments and write them to a file 
 # use >> redirect in case the file exist already so we do not overwrite
@@ -25,7 +25,9 @@ echo "You are now in the AddBiz script" #For testing
 #echo There were $# argument passed to the script 
 
 if [ $# -eq 5 ]
-then echo "5 Arguments passed"
+then 
+#echo "5 Arguments passed"
+echo
 echo $1 $2 $3 $4 $5 >>BusinessDetails
 ./Menu
 else echo "Incorrect number of arguments passed, you entered $# arguments"
